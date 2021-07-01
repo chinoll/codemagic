@@ -1,0 +1,16 @@
+[
+{
+  "modid": "CodeMagic",
+  "name": "CodMagic Mod",
+  "description": "CodMagic mod.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["chinoll"],
+  "credits": "CodMagic mod.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
