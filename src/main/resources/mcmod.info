@@ -1,6 +1,6 @@
 [
 {
-  "modid": "CodeMagic",
+  "modid": "codemagic",
   "name": "CodMagic Mod",
   "description": "CodMagic mod.",
   "version": "${version}",

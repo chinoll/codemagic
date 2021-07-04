@@ -1,17 +1,32 @@
 buildscript {
     repositories {
         jcenter()
+        mavenCentral()
         maven { url = "https://files.minecraftforge.net/maven" }
+        maven { url = "https://mvnrepository.com"}
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+//        antlr "org.antlr:antlr4:4.9.2"
+//        classpath 'org.luaj:luaj-jse:3.0.1'
     }
+//    dependencies {
+//        classpath("org.luaj:luaj-jse:3.0.1")
+//    }
 }
+
 apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'antlr'
+//apply plugin: 'luaj'
+dependencies {
+    antlr 'org.antlr:antlr4:4.9.2'
+}
+
+//apply plugin: 'org.antlr.avtlr4'
 //Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
 
 
-version = "1.0"
+version = "0.0.1"
 group = "com.chinoll.codemagic" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "codemagic"
 
@@ -38,11 +53,10 @@ dependencies {
     // or you may define them like so..
     //compile "some.group:artifact:version:classifier"
     //compile "some.group:artifact:version"
-      
+    compile fileTree(dir:'./',includes: ['*.jar'])
     // real examples
     //compile 'com.mod-buildcraft:buildcraft:6.0.8:dev'  // adds buildcraft to the dev env
     //compile 'com.googlecode.efficient-java-matrix-library:ejml:0.24' // adds ejml to the dev env
-
     // the 'provided' configuration is for optional dependencies that exist at compile-time but might not at runtime.
     //provided 'com.mod-buildcraft:buildcraft:6.0.8:dev'
 
