@@ -17,6 +17,7 @@ import org.luaj.vm2.Globals;
 import org.luaj.vm2.LuaValue;
 import org.luaj.vm2.Varargs;
 import org.luaj.vm2.lib.OneArgFunction;
+import org.luaj.vm2.lib.ThreeArgFunction;
 import org.luaj.vm2.lib.VarArgFunction;
 import org.luaj.vm2.lib.ZeroArgFunction;
 import org.luaj.vm2.lib.jse.JsePlatform;
@@ -32,23 +33,30 @@ public class Snowball {
         return env;
     }
 
-    public static class snowball extends ZeroArgFunction {
+    public static class snowball extends ThreeArgFunction {
         public World world;
         public EntityLivingBase player;
+        private Logger logger = LogManager.getLogger();
 
         public snowball(World world, EntityLivingBase player) {
             this.world = world;
             this.player = player;
         }
 
-        public LuaValue call() {
+        public LuaValue call(LuaValue a,LuaValue b,LuaValue c) {
             if (!this.world.isRemote) {
                 EntitySnowball ball = new EntitySnowball(world, player);
-                ball.shoot(player, player.rotationPitch, player.rotationYaw, 0.0F, 1.5F, 1.0F);
-                world.spawnEntity(ball);
+//                logger.info("snowball x:{},y:{},z:{}",(float) a.checkdouble(), (float) b.checkdouble(), (float) c.checkdouble());
+                try {
+                    ball.shoot(player, player.rotationPitch, player.rotationYaw, (float) a.checkdouble(), (float) b.checkdouble(), (float) c.checkdouble());
+                    world.spawnEntity(ball);
+                } catch (Exception e) {
+                    return null;
+                }
             }
             //触发异常
-            return argerror("test");
+            return null;
+            //return argerror("test");
         }
     }
 }

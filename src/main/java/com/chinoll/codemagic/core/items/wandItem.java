@@ -29,12 +29,12 @@ public class wandItem extends Item {
 
     protected String clean_code(String code) {
         //过滤循环
-        Pattern p = Pattern.compile("[for]|[while]|[repeat]|[until]");
-        while(p.matcher(code).find()) {
-            code.replace("for","");
-            code.replace("while","");
-            code.replace("repeat","");
-            code.replace("until","");
+//        Pattern p = Pattern.compile("[for]|[while]|[repeat]|[until]");
+        while(code.matches("[for]|[while]|[repeat]|[until]")) {
+            code = code.replace("for","")
+                    .replace("while","")
+                    .replace("repeat","")
+                    .replace("until","");
         }
         return code;
     }

@@ -94,7 +94,7 @@ public class CodeInput {
 //                this.cursorY++;
         }
         this.cursorY = ++this.cursorY > this.text_array.size() ? this.text_array.size() : this.cursorY;
-        String string = this.text_array.get(this.cursorY - 2);      //当前行
+        String string = this.text_array.get(Math.max(this.cursorY - 2, 0));      //当前行
         StringBuffer buffer = new StringBuffer(this.text_array.get(this.cursorY - 1)); //下一行
         this.cursorX = Math.min(this.cursorX, buffer.length());
         buffer.insert(this.cursorX,"|");
