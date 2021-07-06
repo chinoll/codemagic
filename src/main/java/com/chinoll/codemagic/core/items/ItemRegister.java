@@ -35,7 +35,7 @@ public class ItemRegister {
                     .setHasSubtypes(true)
                     .setUnlocalizedName(CodeMagic.MODID + "." + wand_name[i])
                     .setCreativeTab(CodeMagicTab)
-                    .setRegistryName(wand_name[i]);
+                    .setRegistryName(CodeMagic.MODID  + ":" + wand_name[i]);
             wand_item[i].setMagicEffect(magic_effect[i]);
             wand_stack[i] = new ItemStack(wand_item[i]);
             event.getRegistry().register(wand_stack[i].getItem());

@@ -16,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 import org.luaj.vm2.*;
 import org.luaj.vm2.lib.jse.*;
 
+import java.util.regex.Pattern;
+
 //@Mod.EventBusSubscriber(modid = CodeMagic.MODID)
 public class wandItem extends Item {
     private double magic_effect;
@@ -25,13 +27,24 @@ public class wandItem extends Item {
         return this;
     }
 
-    private void runScript(EntityLivingBase player,String code) {
+    protected String clean_code(String code) {
+        //过滤循环
+        Pattern p = Pattern.compile("[for]|[while]|[repeat]|[until]");
+        while(p.matcher(code).find()) {
+            code.replace("for","");
+            code.replace("while","");
+            code.replace("repeat","");
+            code.replace("until","");
+        }
+        return code;
+    }
+    protected void runScript(EntityLivingBase player,String code) {
         Globals globals = JsePlatform.standardGlobals();
         globals.set("snowball",new Snowball.snowball(player.world,player));
+        code = clean_code(code);
         LuaValue chunk = globals.load(code);
         chunk.call();
     }
-
 
     @Override
     public ActionResult<ItemStack> onItemRightClick(World world, EntityPlayer player, EnumHand hand) {
