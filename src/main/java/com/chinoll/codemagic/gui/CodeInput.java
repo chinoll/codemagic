@@ -108,8 +108,8 @@ public class CodeInput {
     public void CursorLeft() {
         StringBuffer buffer = new StringBuffer(this.text_array.get(this.cursorY - 1));
         String temp = this.text_array.get(this.cursorY - 1);
-        if (--this.cursorX < 0)
-            this.cursorX = 0;
+        this.cursorX = Math.max(--this.cursorX,0);
+
         buffer.insert(this.cursorX,"|");
         this.text_array.set(this.cursorY - 1,new String(buffer));
         String[] s;
@@ -128,19 +128,15 @@ public class CodeInput {
     public void CursorRight() {
         StringBuffer buffer = new StringBuffer(this.text_array.get(this.cursorY - 1));
         String temp = this.text_array.get(this.cursorY - 1);
-        if (++this.cursorX > temp.length())
-            this.cursorX = temp.length();
+        this.cursorX = Math.min(++this.cursorX,temp.length());
+
         buffer.insert(this.cursorX,"|");
         this.text_array.set(this.cursorY - 1,new String(buffer));
         String[] s;
         if (this.text_array.size() > count) {
             s = Arrays.copyOfRange(this.text_array.toArray(new String[0]), this.text_array.size() - count, this.text_array.size());
-//            firstLine = this.text_array.size() - count == 0 ? 1 : this.text_array.size() - count;
-//            endLine = this.text_array.size();
         } else {
             s = this.text_array.toArray(new String[0]);
-//            firstLine = 1;
-//            endLine = this.text_array.size();
         }
         for(int i = 0;i < count;i++) {
             if (i < s.length)
@@ -157,7 +153,6 @@ public class CodeInput {
             logger.info("end of line");
             logger.info(cursorY == this.text_array.size());
             if (cursorY == this.text_array.size()) {
-//                this.cursorX = 0;
                 this.cursorY++;
                 if (this.cursorX == this.text_array.get(this.cursorY - 2).length() || this.cursorX == 0) {
                     this.text_array.add("");
