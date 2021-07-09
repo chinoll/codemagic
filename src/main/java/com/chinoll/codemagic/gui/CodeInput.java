@@ -47,7 +47,7 @@ public class CodeInput {
                     s[s.length - 1] += "|";
                 }
             this.cursorY = this.text_array.size();
-            this.cursorX = s[0].length();
+            this.cursorX = s[s.length - 1].length() - 1;
             if (s.length > count) {
                 s = Arrays.copyOfRange(s, s.length - count, s.length);
                 firstLine = Math.max(s.length - count, 1);
@@ -70,7 +70,6 @@ public class CodeInput {
 
     public void CursorUp() {
         if (this.cursorY == firstLine) {
-//            firstLine--;
             if (endLine > count)
                 endLine = --endLine > 1 ? endLine : 1;
             firstLine = --firstLine > 1 ? firstLine : 1;
@@ -201,6 +200,7 @@ public class CodeInput {
             return;
         }
         buffer = new StringBuffer(this.text_array.get(this.cursorY - 1));
+        logger.info("cursorX:{},len:{}",this.cursorX,buffer.length());
         buffer.insert(this.cursorX++,input);
         String temp = new String(buffer);
         buffer.insert(this.cursorX,"|");
@@ -224,8 +224,13 @@ public class CodeInput {
             for(int i = this.firstLine;i <= this.endLine;i++) {
                 if (i == this.endLine)
                     this.code_input[i - this.firstLine].setText("");
+                else if (i == this.endLine - 1)
+                    this.code_input[i - this.firstLine].setText(this.text_array.get(i - 1) + "|");
                 else
                     this.code_input[i - this.firstLine].setText(this.text_array.get(i - 1));
+            }
+            if (this.cursorY + 1 == firstLine) {
+                firstLine = --firstLine > 1 ? firstLine : 1;
             }
             this.endLine = --this.endLine > 1 ? this.endLine : 1;
             return;

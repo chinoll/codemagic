@@ -6,7 +6,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
@@ -25,9 +28,9 @@ import org.lwjgl.Sys;
 
 import java.io.IOError;
 
-public class Snowball {
+public class MagicAPI {
     private Logger logger = LogManager.getLogger();
-    public Snowball() {
+    public MagicAPI() {
     }
     public LuaValue call(LuaValue modname, LuaValue env) {
         return env;
@@ -46,17 +49,14 @@ public class Snowball {
         public LuaValue call(LuaValue a,LuaValue b,LuaValue c) {
             if (!this.world.isRemote) {
                 EntitySnowball ball = new EntitySnowball(world, player);
-//                logger.info("snowball x:{},y:{},z:{}",(float) a.checkdouble(), (float) b.checkdouble(), (float) c.checkdouble());
                 try {
                     ball.shoot(player, player.rotationPitch, player.rotationYaw, (float) a.checkdouble(), (float) b.checkdouble(), (float) c.checkdouble());
                     world.spawnEntity(ball);
                 } catch (Exception e) {
-                    return null;
+                    e.printStackTrace();
                 }
             }
-            //触发异常
             return null;
-            //return argerror("test");
         }
     }
 }

@@ -3,12 +3,12 @@ import com.chinoll.codemagic.gui.GuiHanler;
 import net.minecraft.util.IThreadListener;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import com.chinoll.codemagic.core.items.ItemRegister;
+import com.chinoll.codemagic.core.items.eventRegister;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class CommonProxy {
     public void preInit(FMLPreInitializationEvent event){
-        new ItemRegister();
+        new eventRegister();
         new GuiHanler();
 
     }

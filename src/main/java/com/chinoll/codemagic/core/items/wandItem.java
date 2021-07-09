@@ -2,7 +2,7 @@ package com.chinoll.codemagic.core.items;
 
 import com.chinoll.codemagic.CodeMagic;
 import com.chinoll.codemagic.gui.GuiHanler;
-import com.chinoll.codemagic.magic.Snowball;
+import com.chinoll.codemagic.magic.scriptEngine;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -13,10 +13,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.luaj.vm2.*;
-import org.luaj.vm2.lib.jse.*;
+//import com.chinoll.codemagic.magic.scriptEngine;
 
-import java.util.regex.Pattern;
 
 //@Mod.EventBusSubscriber(modid = CodeMagic.MODID)
 public class wandItem extends Item {
@@ -27,9 +25,8 @@ public class wandItem extends Item {
         return this;
     }
 
-    protected String clean_code(String code) {
+    protected String cleanCode(String code) {
         //过滤循环
-//        Pattern p = Pattern.compile("[for]|[while]|[repeat]|[until]");
         while(code.matches("[for]|[while]|[repeat]|[until]")) {
             code = code.replace("for","")
                     .replace("while","")
@@ -37,13 +34,6 @@ public class wandItem extends Item {
                     .replace("until","");
         }
         return code;
-    }
-    protected void runScript(EntityLivingBase player,String code) {
-        Globals globals = JsePlatform.standardGlobals();
-        globals.set("snowball",new Snowball.snowball(player.world,player));
-        code = clean_code(code);
-        LuaValue chunk = globals.load(code);
-        chunk.call();
     }
 
     @Override
@@ -63,11 +53,7 @@ public class wandItem extends Item {
     public boolean onEntitySwing(EntityLivingBase player, ItemStack itemstack) {
         if (!player.world.isRemote) {
             NBTTagCompound NBT = player.getActiveItemStack().getOrCreateSubCompound("filename");
-            try {
-                runScript(player, NBT.getString("source code"));
-            } catch (Exception e) {
-                logger.info(e.getMessage());
-            }
+            CodeMagic.scriptQueue.add(new scriptEngine(cleanCode(NBT.getString("source code")), player.getUniqueID()));
         }
         return true;
     }

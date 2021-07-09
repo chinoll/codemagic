@@ -9,7 +9,7 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import com.chinoll.codemagic.core.items.ItemRegister;
+import com.chinoll.codemagic.core.items.eventRegister;
 import java.util.Objects;
 //import org.antlr.v4.runtime.ParserRuleContext;
 
@@ -19,7 +19,7 @@ public class ModelMapper {
     public static void onRegisterModel(ModelRegistryEvent event) {
 //        ParserRuleContext ctx = new ParserRuleContext();
 //        System.out.println(ctx);
-        for(ItemStack stack:ItemRegister.wand_stack)
+        for(ItemStack stack: eventRegister.wand_stack)
             Register(stack.getItem());
     }
     private static void Register(Item item) {
