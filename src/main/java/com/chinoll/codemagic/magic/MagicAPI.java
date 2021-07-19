@@ -2,16 +2,18 @@ package com.chinoll.codemagic.magic;
 
 import com.chinoll.codemagic.CodeMagic;
 import com.chinoll.codemagic.network.packetClientCode;
+import com.sun.javafx.geom.Vec3f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.entity.projectile.EntityFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.entity.projectile.*;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.client.settings.KeyModifier;
 import org.apache.logging.log4j.LogManager;
@@ -55,6 +57,45 @@ public class MagicAPI {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            }
+            return null;
+        }
+    }
+    public static class arrow extends ThreeArgFunction {
+        public World world;
+        public EntityLivingBase player;
+        private Logger logger = LogManager.getLogger();
+
+        public arrow(World world, EntityLivingBase player) {
+            this.world = world;
+            this.player = player;
+        }
+
+        public LuaValue call(LuaValue a,LuaValue b,LuaValue c) {
+            if (!this.world.isRemote) {
+                Vec3d vec = this.player.getLookVec();
+                EntityTippedArrow arrow = new EntityTippedArrow(this.world,this.player);
+                try {
+                    arrow.shoot(player, player.rotationPitch, player.rotationYaw, (float) a.checkdouble(), (float) b.checkdouble(), (float) c.checkdouble());
+                    world.spawnEntity(arrow);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return null;
+        }
+    }
+    public static class explosion extends OneArgFunction {
+        public World world;
+        public EntityLivingBase player;
+        public explosion(World world,EntityLivingBase player) {
+            this.world = world;
+            this.player = player;
+        }
+        public LuaValue call(LuaValue r) {
+            //TODO
+            if(!this.world.isRemote) {
+                return null;
             }
             return null;
         }

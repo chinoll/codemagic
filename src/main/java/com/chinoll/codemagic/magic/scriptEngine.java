@@ -20,6 +20,7 @@ public class scriptEngine {
 
     private void setEnv(EntityPlayer player, World world) {
         this.global.set("snowball",new MagicAPI.snowball(world,player));
+        this.global.set("arrow",new MagicAPI.arrow(world,player));
 
     }
 
